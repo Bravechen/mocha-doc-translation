@@ -115,7 +115,8 @@ Note: Hooks, if present, will still be executed.
 注意：如果存在钩子，他们还是会被执行的。
 
 >Be mindful not to commit usages of .only() to version control, unless you really mean it!
->
+>尽量不要提交`.only()`的部分到版本控制中，除非你真的需要他们！（？？？）
+
 
 
 
