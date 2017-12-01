@@ -1,7 +1,5 @@
 # 同步代码测试
 
-When testing synchronous code, omit the callback and Mocha will automatically continue on to the next test.
-
 测试同步代码，不需要回调函数，Mocha会自动执行每个测试。
 
 ```js

@@ -1,20 +1,13 @@
 # 接口
 
-Mocha’s “interface” system allows developers to choose their style of DSL. Mocha has BDD, TDD, Exports, QUnit and Require-style interfaces.
-
 Mocha的"接口"(`interface`)系统允许开发者选择不同的DSL风格。有`BDD`、`TDD`、`Exports`、`QUnit`和`require`风格的接口供选择。
 
-## BDD
-
-The BDD interface provides describe(), context(), it(), specify(), before(), after(), beforeEach(), and afterEach().
+## BDD 行为驱动开发
 
 BDD风格提供了`describe(), context(), it(), specify(), before(), after(), beforeEach(),afterEach()`等方法。
 
-context() is just an alias for describe(), and behaves the same way; it just provides a way to keep tests easier to read and organized. Similarly, specify() is an alias for it().
-
 `context()`仅仅是`describe()`的一个别名，行为是相同的。它为测试提供了简单的可读性和组织性。类似的，`specify()`是`it()`的一个别名。
 
->All of the previous examples were written using the BDD interface.
 >本手册之前的例子都是使用BDD风格的测试接口写就的。
 
 ```js
@@ -43,11 +36,22 @@ context() is just an alias for describe(), and behaves the same way; it just pro
   });
 ```
 
-## TDD
-
-The TDD interface provides suite(), test(), suiteSetup(), suiteTeardown(), setup(), and teardown():
+## TDD 测试驱动开发
 
 TDD风格的接口提供了`suite(), test(), suiteSetup(), suiteTeardown(), setup(),teardown()`等方法：
+
+>译注: mocha默认的模式是Behavior Driven Develop (BDD)，要想执行TDD的test的时候需要加上参数，如:
+>
+>`mocha -u tdd test.js `
+
+|TDD|BDD|说明|
+|--|--|--|
+|`suite`|`describe`|单元测试套件|
+|`test`|`it`|测试用例|
+|`suiteSetup()`|``|钩子函数|
+|`suiteTeardown()`|``|钩子函数|
+|`setup`|`before`|钩子函数
+|`teardown`|`after`|钩子函数|
 
 ```js
 suite('Array', function() {
@@ -65,9 +69,7 @@ suite('Array', function() {
 
 ## EXPORTS
 
-The Exports interface is much like Mocha’s predecessor expresso. The keys before, after, beforeEach, and afterEach are special-cased, object values are suites, and function values are test-cases:
-
-`Exports`风格的接口很像Mocha的前辈[`expresso`](https://github.com/tj/expresso)。键名`before, after, beforeEach, afterEach`是指定的用例，object对象实例相当于suite，而函数类型的键值就是测试用例：
+`Exports`风格的接口很像Mocha的前辈[`expresso`](https://github.com/tj/expresso)。键名`before, after, beforeEach, afterEach`是指定的用例，object对象实例相当于单元测试套件，而函数类型的键值就是测试用例：
 
 ```js
 module.exports = {
@@ -87,9 +89,7 @@ module.exports = {
 
 ## QUNIT
 
-The QUnit-inspired interface matches the “flat” look of QUnit, where the test suite title is simply defined before the test-cases. Like TDD, it uses suite() and test(), but resembling BDD, it also contains before(), after(), beforeEach(), and afterEach().
-
-[QUint](http://qunitjs.com/) 风格的接口中，需要把suite的标题定义在测试用例之前。类似TDD，它有`suite(),test()`方法，并且兼具BDD风格的一些方法:`before(), after(), beforeEach(), afterEach()`。
+[QUint](http://qunitjs.com/) 风格的接口中，需要把单元测试套件的标题定义在测试用例之前。类似TDD，它有`suite(),test()`方法，并且兼具BDD风格的一些方法:`before(), after(), beforeEach(), afterEach()`。
 
 ```js
 function ok(expr, msg) {
@@ -119,13 +119,9 @@ test('#length', function() {
 
 ## REQUIRE
 
-The require interface allows you to require the describe and friend words directly using require and call them whatever you want. This interface is also useful if you want to avoid global variables in your tests.
-
 `require`风格允许你加载`describe`，并且友好的支持直接在任何你需要地方使用`require`方法。这种风格对于想要在测试中避免设置全局变量的问题很有用。
 
-Note: The require interface cannot be run via the node executable, and must be run via mocha.
-
-注意：`require`接口不能简单的使用node方式使用，一定要通过加载mocha的方式
+注意：`require`接口不能简单的使用node方式使用，一定要通过加载mocha模块的方式
 
 ```js
 var testCase = require('mocha').describe;
