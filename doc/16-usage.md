@@ -118,3 +118,41 @@
     init <path>  initialize a client-side mocha setup at <path>
                  使用在<path>指定的文件，初始化客户端mocha
 ```
+
+#### `-w --watch`
+
+Executes tests on changes to JavaScript in the CWD, and once initially.
+
+当工作目录中的js文件发生变更时，执行测试。
+
+#### `--exit / --no-exit`
+
+Updated in Mocha v4.0.0
+>Mocha v4.0.0更新
+
+Prior to version v4.0.0, by default, Mocha would force its own process to exit once it was finished executing all tests. This behavior enables a set of potential problems; it’s indicative of tests (or fixtures, harnesses, code under test, etc.) which don’t clean up after themselves properly. Ultimately, “dirty” tests can (but not always) lead to false positive or false negative results.
+
+在v4.0.0版本之前，Mocha默认会在执行完所有的测试之后退出自己的进程。这造成了一些潜在的问题，某些测试设施（诸如测试装备(`fixtures`)、测试控制(`harnesses`)、受测试代码等）无能很好被清理掉。结果，这些“脏”测试可能（偶尔）导致误报(`false positive`)或者漏报(`false negative`)。
+
+“Hanging” most often manifests itself if a server is still listening on a port, or a socket is still open, etc. It can also be something like a runaway setInterval(), or even an errant Promise that never fulfilled.
+
+“挂起”最明显的表现就是服务器运行并始终监听某个端口或者持续保持socket连接诸如此类的情况。它也包含类似持续运行的`setInterval()`或者出现错误没有变为`fulfilled`状态的`Promise`。
+
+>从v4.0.0开始默认设置是`--no-exit`，之前的版本是`--exit`
+
+The easiest way to “fix” the issue is to simply pass --exit to the Mocha process. It can be time-consuming to debug–because it’s not always obvious where the problem is–but it is recommended to do so.
+
+“解决”以上问题最简单的方式就是为Mocha进程设置`--exit`。调试可能是很耗时的——因为问题并不会总是显而易见的——但仍然推荐你试试。
+
+To ensure your tests aren’t leaving messes around, here are some ideas to get started：
+为了避免让你的测试陷入乱局，这里有一些建议：
+
+- [如何调试Node.js](https://nodejs.org/en/docs/inspector/)
+- 试一下[why-is-node-running](https://npm.im/why-is-node-running)模块
+- 使用新的[异步钩子](https://github.com/nodejs/node/blob/master/doc/api/async_hooks.md)API([例子在此](https://git.io/vdlNM))
+- 使用[`.only`](https://mochajs.org/#exclusive-tests)方法逐步找到造成Mocha挂起的原因
+
+#### `--compilers`
+
+>Updated in Mocha v4.0.0
+>更新于Mocha v4.0.0
